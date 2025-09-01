@@ -29,7 +29,7 @@ public class HospitalMaster {
 
     private Integer beds;
 
-    @Column(precision = 3, scale = 2)
+    @Column(precision = 3)
     private Double rating;
 
     @Column(length = 120)

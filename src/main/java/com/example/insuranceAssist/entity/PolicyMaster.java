@@ -34,7 +34,7 @@ public class PolicyMaster {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @Column(precision = 12, scale = 2, nullable = false)
+    @Column(precision = 12, nullable = false)
     private BigDecimal premium;
 
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)

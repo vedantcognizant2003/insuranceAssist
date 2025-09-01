@@ -31,6 +31,10 @@ public class Authorization {
     @JoinColumn(name = "agent_id")
     private AgentMaster agent;
 
+    @ManyToOne(optional = false ,fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    private ClientMaster client;
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "status", nullable = false)
     private StatusTypeMaster status;
