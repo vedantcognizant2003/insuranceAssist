@@ -17,8 +17,12 @@ public class UserPrinciple implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        RoleMaster role = user.getRole();
+        String userRole = role.getRoleName();
+
         ArrayList<GrantedAuthority> roles = new ArrayList<>();
-        SimpleGrantedAuthority clientRole = new SimpleGrantedAuthority("ROLE_CLIENT");
+        SimpleGrantedAuthority clientRole = new SimpleGrantedAuthority("ROLE_" + userRole);
         roles.add(clientRole);
         return roles;
 

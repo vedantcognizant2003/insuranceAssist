@@ -15,4 +15,11 @@ public class RoleMaster {
     @Column(name = "role_name", length = 15, nullable = false, unique = true)
     private String roleName;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
 }

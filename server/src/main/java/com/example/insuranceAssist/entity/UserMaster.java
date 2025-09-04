@@ -1,10 +1,8 @@
 package com.example.insuranceAssist.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
@@ -44,7 +42,7 @@ public class UserMaster {
     @Column(length = 400)
     private String address;
 
-    @ManyToOne(optional = false ,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false ,fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private RoleMaster role;
 
@@ -79,5 +77,37 @@ public class UserMaster {
 
     public String getPassword() {
         return password;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Long getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public RoleMaster getRole() {
+        return role;
     }
 }
