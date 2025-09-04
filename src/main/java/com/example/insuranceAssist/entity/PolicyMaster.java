@@ -26,7 +26,7 @@ public class PolicyMaster {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
-    private ClientMaster client;
+    private UserMaster client;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;

@@ -29,11 +29,11 @@ public class Authorization {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agent_id")
-    private AgentMaster agent;
+    private UserMaster agent;
 
     @ManyToOne(optional = false ,fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
-    private ClientMaster client;
+    private UserMaster client;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "status", nullable = false)

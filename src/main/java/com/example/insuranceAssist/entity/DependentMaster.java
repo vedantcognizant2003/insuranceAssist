@@ -20,7 +20,7 @@ public class DependentMaster {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
-    private ClientMaster client;
+    private UserMaster client;
 
     @Column(nullable = false, length = 120)
     private String name;
