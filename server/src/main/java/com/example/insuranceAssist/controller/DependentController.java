@@ -1,5 +1,6 @@
 package com.example.insuranceAssist.controller;
 
+import com.example.insuranceAssist.Exception.DependentNotFoundException;
 import com.example.insuranceAssist.dto.DependentCreationDTORequest;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
@@ -33,8 +34,14 @@ public class DependentController {
 
     @GetMapping("/getDetails/{dependentId}")
     public ResponseEntity<?> getDependentDetails(@PathVariable UUID dependentId){
-        DependentDetailsDTO response = dependentService.getDependentDetails(dependentId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        try{
+            DependentDetailsDTO response = dependentService.getDependentDetails(dependentId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch (DependentNotFoundException e){
+            return new ResponseEntity<>("Dependent Not Found", HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @PutMapping("/update/{dependentId}")

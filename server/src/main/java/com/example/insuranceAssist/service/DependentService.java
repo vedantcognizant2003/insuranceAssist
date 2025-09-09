@@ -1,5 +1,8 @@
 package com.example.insuranceAssist.service;
 
+import com.example.insuranceAssist.Exception.ClientNotFoundException;
+import com.example.insuranceAssist.Exception.DependentNotFoundException;
+import com.example.insuranceAssist.Exception.RelationNotFoundException;
 import com.example.insuranceAssist.dto.DependentCreationDTORequest;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
@@ -32,10 +35,10 @@ public class DependentService {
     public UUID createDependent(DependentCreationDTORequest request) {
         
         UserMaster client = userMasterRepository.findById(request.getClientId())
-                .orElseThrow();
+                .orElseThrow(() -> new ClientNotFoundException("Client not found with clientId: " + request.getClientId()));
         
         RelationTypeMaster relation = relationTypeMasterRepository.findById(request.getRelationTypeId())
-                .orElseThrow();
+                .orElseThrow(() -> new RelationNotFoundException("Relation not found with relationId: " + request.getRelationTypeId()));
         
         DependentMaster dependentDetails = new DependentMaster(
                 request.getName(),
@@ -57,7 +60,7 @@ public class DependentService {
     public List<DependentProfileViewDTO> getDependents(UUID clientId) {
 
         UserMaster client = userMasterRepository.findById(clientId)
-                .orElseThrow();
+                .orElseThrow(() -> new ClientNotFoundException("Client not found with clientId: " + clientId));
 
         List<DependentMaster> dependents = dependentMasterRepository.findByClient(client);
 
@@ -81,7 +84,7 @@ public class DependentService {
     public DependentDetailsDTO getDependentDetails(UUID dependentId) {
 
         DependentMaster dependent = dependentMasterRepository.findById(dependentId)
-                .orElseThrow();
+                .orElseThrow(() -> new DependentNotFoundException("Dependent not found with dependentId: " + dependentId));
 
         return new DependentDetailsDTO(
                 dependent.getId(),
@@ -96,10 +99,10 @@ public class DependentService {
 
     }
 
-    public DependentDetailsDTO updateDependent(UUID dependentId, DependentCreationDTORequest request) {
+    public DependentDetailsDTO updateDependent(UUID dependentId, DependentCreationDTORequest request) throws DependentNotFoundException {
 
         DependentMaster dependent = dependentMasterRepository.findById(dependentId)
-                .orElseThrow();
+                .orElseThrow(() -> new DependentNotFoundException("Dependent not found with dependentId: " + dependentId));
 
         dependent.setName(request.getName());
         dependent.setDob(request.getDob());
