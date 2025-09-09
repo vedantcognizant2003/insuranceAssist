@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -34,6 +33,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/v1/public/**").permitAll()
+                        .requestMatchers("/api/v1/private/**").permitAll()
                         .requestMatchers("/test/**").authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
@@ -46,9 +46,9 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
-        provider.setUserDetailsService(userDetailsService);
+//        provider.setUserDetailsService(userDetailsService);
         return provider;
     }
 
