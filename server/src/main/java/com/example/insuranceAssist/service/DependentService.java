@@ -15,7 +15,7 @@ import com.example.insuranceAssist.repository.UserMasterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +49,7 @@ public class DependentService {
                 request.getGender(),
                 request.getEmail(),
                 client,
-                LocalDate.now()
+                LocalDateTime.now()
         );
         
         DependentMaster dep = dependentMasterRepository.save(dependentDetails);
@@ -110,7 +110,7 @@ public class DependentService {
         dependent.setGender(request.getGender());
         dependent.setPhone(request.getPhone());
         dependent.setAddress(request.getAddress());
-        dependent.setLastUpdated(LocalDate.now());
+        dependent.setLastUpdated(LocalDateTime.now());
 
         dependentMasterRepository.save(dependent);
 

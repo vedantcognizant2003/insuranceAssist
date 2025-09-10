@@ -28,6 +28,8 @@ public class PolicyMaster {
     @JoinColumn(name = "client_id", nullable = false)
     private UserMaster client;
 
+    private int dependents;
+
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
@@ -50,5 +52,9 @@ public class PolicyMaster {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private PolicyTypeMaster policyType;
 
 }
