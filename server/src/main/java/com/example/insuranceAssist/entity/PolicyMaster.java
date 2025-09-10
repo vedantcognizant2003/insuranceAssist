@@ -3,6 +3,7 @@ package com.example.insuranceAssist.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "policy_master")
 @Data
+@RequiredArgsConstructor
 public class PolicyMaster {
 
     @Id
