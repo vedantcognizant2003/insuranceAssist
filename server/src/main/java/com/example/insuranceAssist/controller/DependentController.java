@@ -5,7 +5,6 @@ import com.example.insuranceAssist.dto.DependentCreationDTORequest;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
 import com.example.insuranceAssist.service.DependentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +16,11 @@ import java.util.UUID;
 @RequestMapping("/api/v1/private/dependent")
 public class DependentController {
 
-    @Autowired
-    private DependentService dependentService;
+    private final DependentService dependentService;
+
+    public DependentController(DependentService dependentService){
+        this.dependentService = dependentService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<UUID> createDependent(@RequestBody DependentCreationDTORequest request){

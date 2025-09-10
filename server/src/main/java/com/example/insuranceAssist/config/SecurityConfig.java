@@ -33,7 +33,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/v1/public/**", "/api/v1/private/**").permitAll()
-//                        .requestMatchers("/api/v1/private/**").permitAll()
                         .requestMatchers("/test/**").authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
@@ -48,7 +47,6 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
-//        provider.setUserDetailsService(userDetailsService);
         return provider;
     }
 
