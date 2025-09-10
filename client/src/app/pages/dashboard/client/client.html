@@ -1,0 +1,20 @@
+
+<ul class="nav nav-tabs mb-4">
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'overview'" (click)="setTab('overview')">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'new-claim'" (click)="setTab('new-claim')">New Claim</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'history'" (click)="setTab('history')">Claim History</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'hospitals'" (click)="setTab('hospitals')">Network Hospitals</a>
+  </li>
+</ul>
+
+@if (activeTab === 'overview') {<app-client-overview  ></app-client-overview>}
+@else if (activeTab === 'new-claim') {<app-client-new-claim></app-client-new-claim>}
+@else if (activeTab === 'hospitals') {<app-network-hospitals></app-network-hospitals>}
+@else if (activeTab === 'history') {<app-client-claim-history></app-client-claim-history>}
