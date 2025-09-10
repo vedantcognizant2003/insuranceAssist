@@ -1,11 +1,9 @@
 package com.example.insuranceAssist.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -37,8 +35,6 @@ public class HospitalMaster {
 
     private Long clientContactNumber;
 
-    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<PolicyNetworkTable> inNetworks;
+    private int network;
 
 }

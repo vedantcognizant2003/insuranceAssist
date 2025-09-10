@@ -7,7 +7,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,11 +36,7 @@ public class PolicyMaster {
     private LocalDate endDate;
 
     @Column(precision = 12, nullable = false)
-    private BigDecimal premium;
-
-    @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<PolicyNetworkTable> networkEntries;
+    private Long premium;
 
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -57,4 +52,15 @@ public class PolicyMaster {
     @JsonIgnore
     private PolicyTypeMaster policyType;
 
+    public PolicyMaster(UserMaster client, int dependents, LocalDate startDate, LocalDate endDate, Long premium, List<Authorization> authorizations, LocalDateTime createdAt, LocalDateTime updatedAt, PolicyTypeMaster policyType) {
+        this.client = client;
+        this.dependents = dependents;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.premium = premium;
+        this.authorizations = authorizations;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.policyType = policyType;
+    }
 }
