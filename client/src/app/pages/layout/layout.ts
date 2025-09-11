@@ -11,6 +11,6 @@ export class Layout {
   
   router = inject(Router);
   OnLogoff(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth']);
   }
 }

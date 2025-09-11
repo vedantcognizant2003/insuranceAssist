@@ -1,18 +1,44 @@
 import { Routes } from '@angular/router';
-import { Login } from './pages/login/login';
+import { Auth } from './pages/auth/auth';
+import { Login } from './pages/auth/login/login';
+import { Signup } from './pages/auth/signup/signup';
 import { Layout } from './pages/layout/layout';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { AgentDashboard } from './pages/dashboard/agent/agent-dashboard';
 import { ClientDashboard } from './pages/dashboard/client/client-dashboard';
+import { ClientRegisterPolicy } from './pages/auth/signup/client-register-policy/client-register-policy';
+import { ClientRegisterDependents } from './pages/auth/signup/client-register-dependents/client-register-dependents';
+
 export const routes: Routes = [
+    // {
+    //     path:'',
+    //     redirectTo: 'login',
+    //     pathMatch: 'full'
+    // },
+    // {
+    //     path: 'login',
+    //     component: Login
+    // },
     {
         path:'',
-        redirectTo: 'login',
+        redirectTo: 'auth',
         pathMatch: 'full'
     },
     {
-        path: 'login',
-        component: Login
+        path: 'auth',
+        component: Auth
+    },
+    {
+        path: 'auth/dependents-nomination',
+        component: ClientRegisterDependents
+    },
+    {
+        path: 'auth/signup',
+        component: Signup
+    },
+    {
+        path: 'auth/policy-plan',
+        component: ClientRegisterPolicy
     },
     {
         path: '',
