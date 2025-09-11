@@ -2,6 +2,7 @@ package com.example.insuranceAssist.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "authorization_log")
 @Data
+@RequiredArgsConstructor
 public class AuthorizationLog {
 
     @Id
@@ -32,4 +34,10 @@ public class AuthorizationLog {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
+    public AuthorizationLog(PolicyMaster policy, StatusTypeMaster prevStatus, StatusTypeMaster currStatus, LocalDateTime timestamp) {
+        this.policy = policy;
+        this.prevStatus = prevStatus;
+        this.currStatus = currStatus;
+        this.timestamp = timestamp;
+    }
 }

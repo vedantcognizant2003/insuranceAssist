@@ -2,7 +2,7 @@ package com.example.insuranceAssist.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -12,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "authorization")
 @Data
+@RequiredArgsConstructor
 public class Authorization {
 
     @Id
@@ -35,6 +36,9 @@ public class Authorization {
     @JoinColumn(name = "client_id")
     private UserMaster client;
 
+    @Column(name = "claim_amount", nullable = true)
+    private long claimAmount;
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "status", nullable = false)
     private StatusTypeMaster status;
@@ -48,10 +52,19 @@ public class Authorization {
     @Column(name = "procedure_notes", length = 400)
     private String procedureNotes;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    public Authorization(PolicyMaster policy, ClaimTypeMaster claimType, UserMaster agent, UserMaster client, long claimAmount, StatusTypeMaster status, LocalDateTime openDate, LocalDateTime closingDate, String procedureNotes, LocalDateTime updatedAt) {
+        this.policy = policy;
+        this.claimType = claimType;
+        this.agent = agent;
+        this.client = client;
+        this.claimAmount = claimAmount;
+        this.status = status;
+        this.openDate = openDate;
+        this.closingDate = closingDate;
+        this.procedureNotes = procedureNotes;
+        this.updatedAt = updatedAt;
+    }
 }
