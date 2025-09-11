@@ -19,20 +19,6 @@ public class HospitalService {
 
     public UUID createHospital(HospitalCreateUpdateRequestDTO request){
 
-//        HospitalMaster hospital = hospitalMasterRepository.findByEmail(request.getEmail());
-//        if (hospital != null) {
-//            System.out.println("hospital already exist");
-//            throw new HospitalExistsException("This hospital already exist");
-//        }
-
-        System.out.println(request.getName());
-        System.out.println(request.getAddress());
-        System.out.println(request.getEmail());
-        System.out.println(request.getBeds());
-        System.out.println(request.getRating());
-        System.out.println(request.getClientContactEmail());
-        System.out.println(request.getClientContactNumber());
-        System.out.println(request.getNetwork());
 
         HospitalMaster hospitalDetails = new HospitalMaster(
                 request.getName(),

@@ -4,14 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class ClientNotFoundException extends Exception {
+public class RoleNotFoundException extends Exception{
 
-    public ClientNotFoundException(){
-        super();
-    }
+    public RoleNotFoundException(){super();}
 
-    public ClientNotFoundException(String message){
-        super(message);
-    }
+    public RoleNotFoundException(String message){super(message);}
 
 }

@@ -1,5 +1,8 @@
 package com.example.insuranceAssist.service;
 
+import com.example.insuranceAssist.Exception.PolicyNotFoundException;
+import com.example.insuranceAssist.Exception.PolicyTypeNotFoundException;
+import com.example.insuranceAssist.Exception.UserNotFoundException;
 import com.example.insuranceAssist.dto.PolicyCreateRequestDTO;
 import com.example.insuranceAssist.dto.PolicyResponseDTO;
 import com.example.insuranceAssist.entity.Authorization;
@@ -11,6 +14,7 @@ import com.example.insuranceAssist.repository.PolicyTypeMasterRepository;
 import com.example.insuranceAssist.repository.UserMasterRepository;
 import org.springframework.stereotype.Service;
 
+import java.security.Policy;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -32,10 +36,10 @@ public class PolicyService {
     }
 
 
-    public PolicyResponseDTO getPolicy(UUID policyId) {
+    public PolicyResponseDTO getPolicy(UUID policyId) throws PolicyNotFoundException{
 
         PolicyMaster policy = policyMasterRepository.findById(policyId)
-                .orElseThrow();
+                .orElseThrow(() -> new PolicyNotFoundException("Policy Not Found with ID : "+policyId));
 
         PolicyTypeMaster policyType = policy.getPolicyType();
 
@@ -50,13 +54,13 @@ public class PolicyService {
     }
 
 
-    public UUID createPolicy(PolicyCreateRequestDTO request) {
+    public UUID createPolicy(PolicyCreateRequestDTO request) throws PolicyTypeNotFoundException, UserNotFoundException {
 
         PolicyTypeMaster policyType = policyTypeMasterRepository.findById(request.getPolicyType())
-                .orElseThrow();
+                .orElseThrow(() -> new PolicyTypeNotFoundException("Policy Type Not Found for Type : "+request.getPolicyType()));
 
         UserMaster client = userMasterRepository.findById(request.getClientId())
-                .orElseThrow();
+                .orElseThrow(() -> new UserNotFoundException("User Not Found for the ID : "+request.getClientId()));
 
         Long prem = (long) (policyType.getPremiumBase() + ((long) request.getNoOfDependents() * policyType.getPremiumPerDependent()));
 
@@ -77,13 +81,13 @@ public class PolicyService {
 
     }
 
-    public PolicyResponseDTO updatePolicy(UUID policyId, PolicyCreateRequestDTO request) {
+    public PolicyResponseDTO updatePolicy(UUID policyId, PolicyCreateRequestDTO request) throws PolicyNotFoundException, PolicyTypeNotFoundException{
 
         PolicyMaster policy = policyMasterRepository.findById(policyId)
-                .orElseThrow();
+                .orElseThrow(() -> new PolicyNotFoundException("Policy not found for the Policy ID : "+policyId));
 
         PolicyTypeMaster policyType = policyTypeMasterRepository.findById(request.getPolicyType())
-                .orElseThrow();
+                .orElseThrow(() -> new PolicyTypeNotFoundException("Policy Type not Found of Type : "+request.getPolicyType()));
 
         Long updatedPremium = (long) (policyType.getPremiumBase() + ((long) request.getNoOfDependents() * policyType.getPremiumPerDependent()));
 
