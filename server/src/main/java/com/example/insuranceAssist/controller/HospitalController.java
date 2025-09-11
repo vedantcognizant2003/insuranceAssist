@@ -1,10 +1,9 @@
 package com.example.insuranceAssist.controller;
 
-import com.example.insuranceAssist.dto.HospitalCreateUpdateRequestDTO;
-import com.example.insuranceAssist.entity.HospitalMaster;
+import com.example.insuranceAssist.dto.HospitalCreateRequestDTO;
+import com.example.insuranceAssist.dto.HospitalDetailsResponseDTO;
+import com.example.insuranceAssist.dto.HospitalResponseDTO;
 import com.example.insuranceAssist.service.HospitalService;
-import com.sun.net.httpserver.HttpsServer;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,36 +15,40 @@ import java.util.UUID;
 @RequestMapping("/api/v1/private/hospital")
 public class HospitalController {
 
-    HospitalService hospitalService;
+    private final HospitalService hospitalService;
 
     public HospitalController(HospitalService hospitalService){
         this.hospitalService = hospitalService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<UUID> createHospital(@RequestBody HospitalCreateUpdateRequestDTO request){
-        UUID hospitalId = hospitalService.createHospital(request);
+    
+    public ResponseEntity<UUID> createHospital(@RequestBody HospitalCreateRequestDTO request){
+        UUID hospitalId = hospitalService.create(request);
         return new ResponseEntity<>(hospitalId, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<UUID> updateHospital(@PathVariable UUID id, @RequestBody HospitalCreateUpdateRequestDTO request){
-        UUID hospitalId = hospitalService.updateHospital(request, id);
-        return new ResponseEntity<>(hospitalId, HttpStatus.OK);
+    @GetMapping("/get")
+    public ResponseEntity<List<HospitalResponseDTO>> getHospital(){
+        List<HospitalResponseDTO> hospitalList = hospitalService.getHospital();
+        return new ResponseEntity<>(hospitalList, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteHospital(@PathVariable UUID id){
-        hospitalService.deleteHospital(id);
-        return new ResponseEntity<>("Deleted hospital successfully", HttpStatus.OK);
+    @GetMapping("/get/{hospitalId}")
+    public ResponseEntity<HospitalDetailsResponseDTO> getHospitalDetails(@PathVariable UUID hospitalId){
+        HospitalDetailsResponseDTO hospital = hospitalService.getHospitalDetails(hospitalId);
+        return new ResponseEntity<>(hospital, HttpStatus.OK);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<HospitalMaster>> getAllHospital(){
-        List<HospitalMaster> allHospital = hospitalService.getAllHospital();
-        return new ResponseEntity<>(allHospital, HttpStatus.OK);
+    @PutMapping("/update/{hospitalId}")
+    public ResponseEntity<HospitalDetailsResponseDTO> updateHospital(@RequestBody HospitalCreateRequestDTO request, @PathVariable UUID hospitalId){
+        HospitalDetailsResponseDTO hospital = hospitalService.updateHospital(request, hospitalId);
+        return new ResponseEntity<>(hospital, HttpStatus.OK);
     }
 
-
+    @DeleteMapping("/delete/{hospitalId}")
+    public ResponseEntity<String> deleteHospital(@PathVariable UUID hospitalId){
+        hospitalService.deleteHospital(hospitalId);
+        return new ResponseEntity<>("Hospital information deleted successfully", HttpStatus.OK);
+    }
 
 }

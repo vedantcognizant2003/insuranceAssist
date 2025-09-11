@@ -27,8 +27,6 @@ public class HospitalMaster {
     @Column(length = 120, unique = true)
     private String email;
 
-    private Integer beds;
-
     @Column(precision = 3)
     private Double rating;
 
@@ -39,11 +37,10 @@ public class HospitalMaster {
 
     private int network;
 
-    public HospitalMaster(String name, String address, String email, Integer beds, Double rating, String clientContactEmail, Long clientContactNumber, int network){
+    public HospitalMaster(String name, String address, String email, Double rating, String clientContactEmail, Long clientContactNumber, int network) {
         this.name = name;
         this.address = address;
         this.email = email;
-        this.beds = beds;
         this.rating = rating;
         this.clientContactEmail = clientContactEmail;
         this.clientContactNumber = clientContactNumber;

@@ -1,10 +1,13 @@
 package com.example.insuranceAssist.service;
 
-import com.example.insuranceAssist.dto.HospitalCreateUpdateRequestDTO;
+import com.example.insuranceAssist.dto.HospitalCreateRequestDTO;
+import com.example.insuranceAssist.dto.HospitalDetailsResponseDTO;
+import com.example.insuranceAssist.dto.HospitalResponseDTO;
 import com.example.insuranceAssist.entity.HospitalMaster;
 import com.example.insuranceAssist.repository.HospitalMasterRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,52 +20,92 @@ public class HospitalService {
         this.hospitalMasterRepository = hospitalMasterRepository;
     }
 
-    public UUID createHospital(HospitalCreateUpdateRequestDTO request){
+    public UUID create(HospitalCreateRequestDTO request) {
 
-
-        HospitalMaster hospitalDetails = new HospitalMaster(
+        HospitalMaster hospital = new HospitalMaster(
                 request.getName(),
                 request.getAddress(),
                 request.getEmail(),
-                request.getBeds(),
                 request.getRating(),
                 request.getClientContactEmail(),
                 request.getClientContactNumber(),
                 request.getNetwork()
         );
 
-        HospitalMaster response = hospitalMasterRepository.save(hospitalDetails);
-
-        return response.getId();
+        return hospitalMasterRepository.save(hospital).getId();
 
     }
 
-    public UUID updateHospital(HospitalCreateUpdateRequestDTO request, UUID id){
+    public List<HospitalResponseDTO> getHospital() {
 
-        HospitalMaster hospitalDetails = hospitalMasterRepository.findById(id).orElseThrow();
+        List<HospitalMaster> hospitals = hospitalMasterRepository.findAll();
 
-        hospitalDetails.setName(request.getName());
-        hospitalDetails.setAddress(request.getAddress());
-        hospitalDetails.setEmail(request.getEmail());
-        hospitalDetails.setBeds(request.getBeds());
-        hospitalDetails.setRating(request.getRating());
-        hospitalDetails.setClientContactEmail(request.getClientContactEmail());
-        hospitalDetails.setClientContactNumber(request.getClientContactNumber());
-        hospitalDetails.setNetwork(request.getNetwork());
+        List<HospitalResponseDTO> hospitalList = new ArrayList<>();
 
-        HospitalMaster response = hospitalMasterRepository.save(hospitalDetails);
-        return response.getId();
+        for(HospitalMaster hospital: hospitals){
+            HospitalResponseDTO hospitalDto = new HospitalResponseDTO(
+                    hospital.getId(),
+                    hospital.getName(),
+                    hospital.getAddress(),
+                    hospital.getRating(),
+                    hospital.getClientContactEmail(),
+                    hospital.getClientContactNumber(),
+                    hospital.getNetwork()
+            );
+            hospitalList.add(hospitalDto);
+        }
+
+        return hospitalList;
 
     }
 
-    public void deleteHospital(UUID id){
-        hospitalMasterRepository.deleteById(id);
+    public HospitalDetailsResponseDTO getHospitalDetails(UUID hospitalId) {
+
+        HospitalMaster hospital = hospitalMasterRepository.findById(hospitalId)
+                .orElseThrow();
+
+        return new HospitalDetailsResponseDTO(
+                hospital.getName(),
+                hospital.getAddress(),
+                hospital.getEmail(),
+                hospital.getRating(),
+                hospital.getClientContactEmail(),
+                hospital.getClientContactNumber(),
+                hospital.getNetwork()
+        );
+
     }
 
-    public List<HospitalMaster> getAllHospital(){
-        return hospitalMasterRepository.findAll();
+    public HospitalDetailsResponseDTO updateHospital(HospitalCreateRequestDTO request, UUID hospitalId) {
+
+        HospitalMaster hospital = hospitalMasterRepository.findById(hospitalId)
+                .orElseThrow();
+
+        hospital.setName(request.getName());
+        hospital.setAddress(request.getAddress());
+        hospital.setEmail(request.getEmail());
+        hospital.setClientContactEmail(request.getClientContactEmail());
+        hospital.setClientContactNumber(request.getClientContactNumber());
+        hospital.setRating(request.getRating());
+        hospital.setNetwork(request.getNetwork());
+
+        HospitalMaster updatedHospital = hospitalMasterRepository.save(hospital);
+
+        return new HospitalDetailsResponseDTO(
+                updatedHospital.getName(),
+                updatedHospital.getAddress(),
+                updatedHospital.getEmail(),
+                updatedHospital.getRating(),
+                updatedHospital.getClientContactEmail(),
+                updatedHospital.getClientContactNumber(),
+                updatedHospital.getNetwork()
+        );
+
     }
 
+    public void deleteHospital(UUID hospitalId) {
 
+        hospitalMasterRepository.deleteById(hospitalId);
 
+    }
 }
