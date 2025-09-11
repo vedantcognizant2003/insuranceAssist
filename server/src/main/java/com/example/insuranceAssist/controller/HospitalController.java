@@ -1,5 +1,6 @@
 package com.example.insuranceAssist.controller;
 
+import com.example.insuranceAssist.Exception.HospitalNotFoundException;
 import com.example.insuranceAssist.dto.HospitalCreateRequestDTO;
 import com.example.insuranceAssist.dto.HospitalDetailsResponseDTO;
 import com.example.insuranceAssist.dto.HospitalResponseDTO;
@@ -34,15 +35,23 @@ public class HospitalController {
     }
 
     @GetMapping("/get/{hospitalId}")
-    public ResponseEntity<HospitalDetailsResponseDTO> getHospitalDetails(@PathVariable UUID hospitalId){
-        HospitalDetailsResponseDTO hospital = hospitalService.getHospitalDetails(hospitalId);
-        return new ResponseEntity<>(hospital, HttpStatus.OK);
+    public ResponseEntity<?> getHospitalDetails(@PathVariable UUID hospitalId){
+        try{
+            HospitalDetailsResponseDTO hospital = hospitalService.getHospitalDetails(hospitalId);
+            return new ResponseEntity<>(hospital, HttpStatus.OK);
+        } catch (HospitalNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+        }
     }
 
     @PutMapping("/update/{hospitalId}")
-    public ResponseEntity<HospitalDetailsResponseDTO> updateHospital(@RequestBody HospitalCreateRequestDTO request, @PathVariable UUID hospitalId){
-        HospitalDetailsResponseDTO hospital = hospitalService.updateHospital(request, hospitalId);
-        return new ResponseEntity<>(hospital, HttpStatus.OK);
+    public ResponseEntity<?> updateHospital(@RequestBody HospitalCreateRequestDTO request, @PathVariable UUID hospitalId) {
+        try{
+            HospitalDetailsResponseDTO hospital = hospitalService.updateHospital(request, hospitalId);
+            return new ResponseEntity<>(hospital, HttpStatus.OK);
+        }catch (HospitalNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+        }
     }
 
     @DeleteMapping("/delete/{hospitalId}")
