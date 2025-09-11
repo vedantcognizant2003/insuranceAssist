@@ -25,10 +25,22 @@ public class PolicyController {
 //        return new ResponseEntity<>(policyId, HttpStatus.CREATED);
 //    }
 
-    @GetMapping("/get/{clientId}")
-    public ResponseEntity<PolicyResponseDTO> getPolicy(@PathVariable UUID clientId){
-        PolicyResponseDTO response = policyService.getPolicy(clientId);
+    @GetMapping("/get/{policyId}")
+    public ResponseEntity<PolicyResponseDTO> getPolicy(@PathVariable UUID policyId){
+        PolicyResponseDTO response = policyService.getPolicy(policyId);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{policyId}")
+    public ResponseEntity<?> updatePolicy(@PathVariable UUID policyId, @RequestBody PolicyCreateRequestDTO request){
+        PolicyResponseDTO response = policyService.updatePolicy(policyId, request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{policyId}")
+    public ResponseEntity<String> deletePolicy(@PathVariable UUID policyId){
+        policyService.deletePolicy(policyId);
+        return new ResponseEntity<>("Policy Deleted Successfully", HttpStatus.OK);
     }
 
 }
