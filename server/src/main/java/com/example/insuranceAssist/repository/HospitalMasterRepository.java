@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface HospitalMasterRepository extends JpaRepository<HospitalMaster, UUID> {
+    HospitalMaster findByEmail(String email);
 }

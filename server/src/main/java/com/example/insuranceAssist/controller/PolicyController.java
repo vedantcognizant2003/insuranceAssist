@@ -19,11 +19,11 @@ public class PolicyController {
         this.policyService = policyService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<UUID> createPolicy(@RequestBody PolicyCreateRequestDTO request){
-        UUID policyId = policyService.createPolicy(request);
-        return new ResponseEntity<>(policyId, HttpStatus.CREATED);
-    }
+//    @PostMapping("/create")
+//    public ResponseEntity<UUID> createPolicy(@RequestBody PolicyCreateRequestDTO request){
+//        UUID policyId = policyService.createPolicy(request);
+//        return new ResponseEntity<>(policyId, HttpStatus.CREATED);
+//    }
 
     @GetMapping("/get/{clientId}")
     public ResponseEntity<PolicyResponseDTO> getPolicy(@PathVariable UUID clientId){

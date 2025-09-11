@@ -47,24 +47,24 @@ public class PolicyService {
 
     }
 
-    public UUID createPolicy(PolicyCreateRequestDTO request) {
-
-        PolicyTypeMaster policyType = policyTypeMasterRepository.findById(request.getPolicyType())
-                .orElseThrow();
-
-        UserMaster client = userMasterRepository.findById(request.getClientId())
-                .orElseThrow();
-
-        Long prem = (long) (policyType.getPremiumBase() + ((long) request.getNoOfDependents() * policyType.getPremiumPerDependent()));
-
-        PolicyMaster policy = new PolicyMaster(
-                client,
-                request.getNoOfDependents(),
-                request.getStartDate(),
-                request.getEndDate(),
-                prem,
-//                new List<Autho>
-        );
-
-    }
+//    public UUID createPolicy(PolicyCreateRequestDTO request) {
+//
+//        PolicyTypeMaster policyType = policyTypeMasterRepository.findById(request.getPolicyType())
+//                .orElseThrow();
+//
+//        UserMaster client = userMasterRepository.findById(request.getClientId())
+//                .orElseThrow();
+//
+//        Long prem = (long) (policyType.getPremiumBase() + ((long) request.getNoOfDependents() * policyType.getPremiumPerDependent()));
+//
+//        PolicyMaster policy = new PolicyMaster(
+//                client,
+//                request.getNoOfDependents(),
+//                request.getStartDate(),
+//                request.getEndDate(),
+//                prem,
+////                new List<Autho>
+//        );
+//
+//    }
 }

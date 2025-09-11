@@ -2,6 +2,7 @@ package com.example.insuranceAssist.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
@@ -9,6 +10,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "hospital_master")
 @Data
+@RequiredArgsConstructor
 public class HospitalMaster {
 
     @Id
@@ -37,4 +39,14 @@ public class HospitalMaster {
 
     private int network;
 
+    public HospitalMaster(String name, String address, String email, Integer beds, Double rating, String clientContactEmail, Long clientContactNumber, int network){
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.beds = beds;
+        this.rating = rating;
+        this.clientContactEmail = clientContactEmail;
+        this.clientContactNumber = clientContactNumber;
+        this.network = network;
+    }
 }
