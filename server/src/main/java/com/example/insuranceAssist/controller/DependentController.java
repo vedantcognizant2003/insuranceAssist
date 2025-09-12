@@ -1,6 +1,6 @@
 package com.example.insuranceAssist.controller;
 
-import com.example.insuranceAssist.Exception.DependentNotFoundException;
+import com.example.insuranceAssist.exception.DependentNotFoundException;
 import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
