@@ -1,8 +1,8 @@
 package com.example.insuranceAssist.service;
 
-import com.example.insuranceAssist.exception.ClientNotFoundException;
-import com.example.insuranceAssist.exception.DependentNotFoundException;
-import com.example.insuranceAssist.exception.RelationNotFoundException;
+import com.example.insuranceAssist.Exception.ClientNotFoundException;
+import com.example.insuranceAssist.Exception.DependentNotFoundException;
+import com.example.insuranceAssist.Exception.RelationNotFoundException;
 import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
