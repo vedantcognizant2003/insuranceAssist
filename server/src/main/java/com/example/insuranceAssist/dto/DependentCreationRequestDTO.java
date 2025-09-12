@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class DependentCreationDTORequest {
+public class DependentCreationRequestDTO {
 
     private String name;
     private LocalDate dob;

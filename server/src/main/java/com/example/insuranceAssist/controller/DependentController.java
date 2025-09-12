@@ -1,7 +1,7 @@
 package com.example.insuranceAssist.controller;
 
 import com.example.insuranceAssist.Exception.DependentNotFoundException;
-import com.example.insuranceAssist.dto.DependentCreationDTORequest;
+import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
 import com.example.insuranceAssist.service.DependentService;
@@ -23,7 +23,7 @@ public class DependentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UUID> createDependent(@RequestBody DependentCreationDTORequest request){
+    public ResponseEntity<UUID> createDependent(@RequestBody DependentCreationRequestDTO request){
         UUID dependentId = dependentService.createDependent(request);
         return new ResponseEntity<>(dependentId, HttpStatus.CREATED);
     }
@@ -47,7 +47,7 @@ public class DependentController {
     }
 
     @PutMapping("/update/{dependentId}")
-    public ResponseEntity<?> updateDependent(@PathVariable UUID dependentId, @RequestBody DependentCreationDTORequest request){
+    public ResponseEntity<?> updateDependent(@PathVariable UUID dependentId, @RequestBody DependentCreationRequestDTO request){
         DependentDetailsDTO response = dependentService.updateDependent(dependentId, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

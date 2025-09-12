@@ -3,7 +3,7 @@ package com.example.insuranceAssist.service;
 import com.example.insuranceAssist.Exception.ClientNotFoundException;
 import com.example.insuranceAssist.Exception.DependentNotFoundException;
 import com.example.insuranceAssist.Exception.RelationNotFoundException;
-import com.example.insuranceAssist.dto.DependentCreationDTORequest;
+import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
 import com.example.insuranceAssist.entity.DependentMaster;
@@ -32,7 +32,7 @@ public class DependentService {
     @Autowired
     private DependentMasterRepository dependentMasterRepository;
 
-    public UUID createDependent(DependentCreationDTORequest request) {
+    public UUID createDependent(DependentCreationRequestDTO request) {
         
         UserMaster client = userMasterRepository.findById(request.getClientId())
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with clientId: " + request.getClientId()));
@@ -99,7 +99,7 @@ public class DependentService {
 
     }
 
-    public DependentDetailsDTO updateDependent(UUID dependentId, DependentCreationDTORequest request) throws DependentNotFoundException {
+    public DependentDetailsDTO updateDependent(UUID dependentId, DependentCreationRequestDTO request) throws DependentNotFoundException {
 
         DependentMaster dependent = dependentMasterRepository.findById(dependentId)
                 .orElseThrow(() -> new DependentNotFoundException("Dependent not found with dependentId: " + dependentId));
