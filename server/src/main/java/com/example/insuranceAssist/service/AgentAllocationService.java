@@ -1,5 +1,6 @@
 package com.example.insuranceAssist.service;
 
+import com.example.insuranceAssist.Exception.RoleNotFoundException;
 import com.example.insuranceAssist.entity.RoleMaster;
 import com.example.insuranceAssist.entity.UserMaster;
 import com.example.insuranceAssist.repository.RoleMasterRepository;
@@ -24,10 +25,10 @@ public class AgentAllocationService {
     }
 
     @PostConstruct
-    public void loadAgentList(){
+    public void loadAgentList() throws RoleNotFoundException{
 
         RoleMaster agentRole = roleMasterRepository.findById(1L)
-                .orElseThrow();
+                .orElseThrow(() -> new RoleNotFoundException("Agent Role not Found"));
 
         agentList = userMasterRepository.findAllByRole(agentRole);
 

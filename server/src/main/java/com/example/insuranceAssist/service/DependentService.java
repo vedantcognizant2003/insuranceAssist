@@ -32,7 +32,7 @@ public class DependentService {
     @Autowired
     private DependentMasterRepository dependentMasterRepository;
 
-    public UUID createDependent(DependentCreationDTORequest request) {
+    public UUID createDependent(DependentCreationDTORequest request) throws ClientNotFoundException, RelationNotFoundException{
         
         UserMaster client = userMasterRepository.findById(request.getClientId())
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with clientId: " + request.getClientId()));
@@ -57,7 +57,7 @@ public class DependentService {
         
     }
 
-    public List<DependentProfileViewDTO> getDependents(UUID clientId) {
+    public List<DependentProfileViewDTO> getDependents(UUID clientId) throws ClientNotFoundException{
 
         UserMaster client = userMasterRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with clientId: " + clientId));
@@ -81,7 +81,7 @@ public class DependentService {
 
     }
 
-    public DependentDetailsDTO getDependentDetails(UUID dependentId) {
+    public DependentDetailsDTO getDependentDetails(UUID dependentId) throws DependentNotFoundException{
 
         DependentMaster dependent = dependentMasterRepository.findById(dependentId)
                 .orElseThrow(() -> new DependentNotFoundException("Dependent not found with dependentId: " + dependentId));

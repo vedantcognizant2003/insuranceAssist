@@ -1,5 +1,6 @@
 package com.example.insuranceAssist.controller;
 
+import com.example.insuranceAssist.Exception.*;
 import com.example.insuranceAssist.dto.ClaimCreateRequestDTO;
 import com.example.insuranceAssist.dto.ClaimResponseDTO;
 import com.example.insuranceAssist.service.ClaimService;
@@ -21,33 +22,58 @@ public class ClaimController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UUID> createClaim(@RequestBody ClaimCreateRequestDTO request){
-        UUID claimId = claimService.createClaim(request);
-        return new ResponseEntity<>(claimId, HttpStatus.CREATED);
+    public ResponseEntity<?> createClaim(@RequestBody ClaimCreateRequestDTO request){
+        try{
+            UUID claimId = claimService.createClaim(request);
+            return new ResponseEntity<>(claimId, HttpStatus.CREATED);
+        } catch (ClientNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch(ClaimTypeNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (ClaimStatusNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+
+        }
     }
 
     @GetMapping("/get/{claimId}")
-    public ResponseEntity<ClaimResponseDTO> getClaim(@PathVariable UUID claimId){
-        ClaimResponseDTO response = claimService.getClaim(claimId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> getClaim(@PathVariable UUID claimId){
+        try{
+            ClaimResponseDTO response = claimService.getClaim(claimId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (ClaimNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get/agent/{agentId}")
-    public ResponseEntity<List<ClaimResponseDTO>> getClaimByAgent(@PathVariable UUID agentId){
-        List<ClaimResponseDTO> response = claimService.getClaimByAgent(agentId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> getClaimByAgent(@PathVariable UUID agentId){
+        try{
+            List<ClaimResponseDTO> response = claimService.getClaimByAgent(agentId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch(UserNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get/{clientId}")
-    public ResponseEntity<List<ClaimResponseDTO>> getClaimByClient(@PathVariable UUID clientId){
-        List<ClaimResponseDTO> response = claimService.getClaimByClient(clientId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> getClaimByClient(@PathVariable UUID clientId){
+        try{
+            List<ClaimResponseDTO> response = claimService.getClaimByClient(clientId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (UserNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/update/{claimId}/{updatedStatus}")
-    public ResponseEntity<ClaimResponseDTO> updateClaim(@PathVariable UUID claimId, @PathVariable Long updatedStatus){
-        ClaimResponseDTO response = claimService.updateClaim(claimId, updatedStatus);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> updateClaim(@PathVariable UUID claimId, @PathVariable Long updatedStatus){
+        try{
+            ClaimResponseDTO response = claimService.updateClaim(claimId, updatedStatus);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (ClaimNotFoundException e){
+            return  new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/delete/{claimId}")

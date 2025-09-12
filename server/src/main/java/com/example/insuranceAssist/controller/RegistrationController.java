@@ -1,5 +1,6 @@
 package com.example.insuranceAssist.controller;
 
+import com.example.insuranceAssist.Exception.RoleNotFoundException;
 import com.example.insuranceAssist.dto.RegistrationRequestDTO;
 import com.example.insuranceAssist.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,13 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegistrationRequestDTO request){
-        request.setPassword(encoder.encode(request.getPassword()));
-        registrationService.register(request);
-        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+        try{
+            request.setPassword(encoder.encode(request.getPassword()));
+            registrationService.register(request);
+            return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+        } catch (RoleNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
 }

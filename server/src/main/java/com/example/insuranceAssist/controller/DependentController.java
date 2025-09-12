@@ -1,6 +1,8 @@
 package com.example.insuranceAssist.controller;
 
+import com.example.insuranceAssist.Exception.ClientNotFoundException;
 import com.example.insuranceAssist.Exception.DependentNotFoundException;
+import com.example.insuranceAssist.Exception.RelationNotFoundException;
 import com.example.insuranceAssist.dto.DependentCreationDTORequest;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,15 +26,25 @@ public class DependentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UUID> createDependent(@RequestBody DependentCreationDTORequest request){
-        UUID dependentId = dependentService.createDependent(request);
-        return new ResponseEntity<>(dependentId, HttpStatus.CREATED);
+    public ResponseEntity<?> createDependent(@RequestBody DependentCreationDTORequest request){
+        try{
+            UUID dependentId = dependentService.createDependent(request);
+            return new ResponseEntity<>(dependentId, HttpStatus.CREATED);
+        } catch (ClientNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (RelationNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get/{clientId}")
     public ResponseEntity<?> getDependents(@PathVariable UUID clientId){
-        List<DependentProfileViewDTO> response = dependentService.getDependents(clientId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        try{
+            List<DependentProfileViewDTO> response = dependentService.getDependents(clientId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch(ClientNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/getDetails/{dependentId}")
@@ -48,8 +61,12 @@ public class DependentController {
 
     @PutMapping("/update/{dependentId}")
     public ResponseEntity<?> updateDependent(@PathVariable UUID dependentId, @RequestBody DependentCreationDTORequest request){
-        DependentDetailsDTO response = dependentService.updateDependent(dependentId, request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        try{
+            DependentDetailsDTO response = dependentService.updateDependent(dependentId, request);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DependentNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/delete/{dependentId}")

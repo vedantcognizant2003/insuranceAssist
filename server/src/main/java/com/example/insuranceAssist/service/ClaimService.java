@@ -1,5 +1,6 @@
 package com.example.insuranceAssist.service;
 
+import com.example.insuranceAssist.Exception.*;
 import com.example.insuranceAssist.dto.ClaimCreateRequestDTO;
 import com.example.insuranceAssist.dto.ClaimResponseDTO;
 import com.example.insuranceAssist.entity.*;
@@ -34,10 +35,10 @@ public class ClaimService {
         this.agentAllocationService = agentAllocationService;
     }
 
-    public UUID createClaim(ClaimCreateRequestDTO request) {
+    public UUID createClaim(ClaimCreateRequestDTO request) throws ClientNotFoundException, ClaimTypeNotFoundException, ClaimStatusNotFoundException{
 
         UserMaster client = userMasterRepository.findById(request.getClientId())
-                .orElseThrow();
+                .orElseThrow(() -> new ClientNotFoundException("Client Not Found for ID : "+request.getClientId()));
 
         UserMaster agent = agentAllocationService.getAllocatedAgent();
 
@@ -46,11 +47,11 @@ public class ClaimService {
         PolicyTypeMaster policyType = policy.getPolicyType();
 
         ClaimTypeMaster claimType = claimTypeMasterRepository.findById(request.getClaimType())
-                .orElseThrow();
+                .orElseThrow(() -> new ClaimTypeNotFoundException("Claim not found for Claim : "+ request.getClaimType()));
 
         Long statusCreated = 1L;
         StatusTypeMaster status = statusTypeMasterRepository.findById(statusCreated)
-                .orElseThrow();
+                .orElseThrow(() -> new ClaimStatusNotFoundException("Claim Status Not Found"));
 
         Authorization claim = new Authorization(
                 policy,
@@ -78,10 +79,10 @@ public class ClaimService {
 
     }
 
-    public ClaimResponseDTO getClaim(UUID claimId) {
+    public ClaimResponseDTO getClaim(UUID claimId) throws ClaimNotFoundException {
 
         Authorization claim = authorizationRepository.findById(claimId)
-                .orElseThrow();
+                .orElseThrow(() -> new ClaimNotFoundException("Claim Not Found for Claim ID : "+claimId));
 
         return new ClaimResponseDTO(
             claim.getClient().getId(),
@@ -95,10 +96,10 @@ public class ClaimService {
 
     }
 
-    public List<ClaimResponseDTO> getClaimByAgent(UUID agentId) {
+    public List<ClaimResponseDTO> getClaimByAgent(UUID agentId) throws UserNotFoundException{
 
         UserMaster agent = userMasterRepository.findById(agentId)
-                .orElseThrow();
+                .orElseThrow(() -> new UserNotFoundException("Agent Not Found for Agent ID"+agentId));
 
         List<Authorization> claims = authorizationRepository.findAllByAgent(agent);
 
@@ -121,10 +122,10 @@ public class ClaimService {
 
     }
 
-    public List<ClaimResponseDTO> getClaimByClient(UUID clientId) {
+    public List<ClaimResponseDTO> getClaimByClient(UUID clientId) throws UserNotFoundException{
 
         UserMaster client = userMasterRepository.findById(clientId)
-                .orElseThrow();
+                .orElseThrow(() -> new UserNotFoundException("Client Not Found for Client ID : "+clientId));
 
         List<Authorization> claims = authorizationRepository.findAllByClient(client);
 
@@ -147,10 +148,10 @@ public class ClaimService {
 
     }
 
-    public ClaimResponseDTO updateClaim(UUID claimId, Long updatedStatus) {
+    public ClaimResponseDTO updateClaim(UUID claimId, Long updatedStatus) throws ClaimNotFoundException{
 
         Authorization claim = authorizationRepository.findById(claimId)
-                .orElseThrow();
+                .orElseThrow(() -> new ClaimNotFoundException("Claim not found for Claim ID : "+claimId));
 
         StatusTypeMaster currStatus = statusTypeMasterRepository.findById(updatedStatus)
                 .orElseThrow();
