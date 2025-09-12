@@ -1,8 +1,8 @@
 package com.example.insuranceAssist.service;
 
-import com.example.insuranceAssist.Exception.ClientNotFoundException;
-import com.example.insuranceAssist.Exception.DependentNotFoundException;
-import com.example.insuranceAssist.Exception.RelationNotFoundException;
+import com.example.insuranceAssist.exception.ClientNotFoundException;
+import com.example.insuranceAssist.exception.DependentNotFoundException;
+import com.example.insuranceAssist.exception.RelationNotFoundException;
 import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
@@ -32,7 +32,7 @@ public class DependentService {
     @Autowired
     private DependentMasterRepository dependentMasterRepository;
 
-    public UUID createDependent(DependentCreationRequestDTO request) {
+    public UUID createDependent(DependentCreationRequestDTO request) throws ClientNotFoundException, RelationNotFoundException {
         
         UserMaster client = userMasterRepository.findById(request.getClientId())
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with clientId: " + request.getClientId()));
@@ -57,7 +57,7 @@ public class DependentService {
         
     }
 
-    public List<DependentProfileViewDTO> getDependents(UUID clientId) {
+    public List<DependentProfileViewDTO> getDependents(UUID clientId) throws ClientNotFoundException {
 
         UserMaster client = userMasterRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with clientId: " + clientId));
@@ -81,7 +81,7 @@ public class DependentService {
 
     }
 
-    public DependentDetailsDTO getDependentDetails(UUID dependentId) {
+    public DependentDetailsDTO getDependentDetails(UUID dependentId) throws DependentNotFoundException {
 
         DependentMaster dependent = dependentMasterRepository.findById(dependentId)
                 .orElseThrow(() -> new DependentNotFoundException("Dependent not found with dependentId: " + dependentId));

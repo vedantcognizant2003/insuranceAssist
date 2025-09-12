@@ -1,16 +1,16 @@
-package com.example.insuranceAssist.Exception;
+package com.example.insuranceAssist.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class ClientNotFoundException extends RuntimeException {
+public class ClaimTypeNotFoundException extends Exception{
 
-    public ClientNotFoundException(){
+    public ClaimTypeNotFoundException(){
         super();
     }
 
-    public ClientNotFoundException(String message){
+    public ClaimTypeNotFoundException(String message){
         super(message);
     }
 

@@ -1,5 +1,6 @@
 package com.example.insuranceAssist.service;
 
+import com.example.insuranceAssist.exception.HospitalNotFoundException;
 import com.example.insuranceAssist.dto.HospitalCreateRequestDTO;
 import com.example.insuranceAssist.dto.HospitalDetailsResponseDTO;
 import com.example.insuranceAssist.dto.HospitalResponseDTO;
@@ -59,10 +60,10 @@ public class HospitalService {
 
     }
 
-    public HospitalDetailsResponseDTO getHospitalDetails(UUID hospitalId) {
+    public HospitalDetailsResponseDTO getHospitalDetails(UUID hospitalId) throws HospitalNotFoundException {
 
         HospitalMaster hospital = hospitalMasterRepository.findById(hospitalId)
-                .orElseThrow();
+                .orElseThrow(() -> new HospitalNotFoundException("Hospital not found with id: " + hospitalId));
 
         return new HospitalDetailsResponseDTO(
                 hospital.getName(),
@@ -76,10 +77,10 @@ public class HospitalService {
 
     }
 
-    public HospitalDetailsResponseDTO updateHospital(HospitalCreateRequestDTO request, UUID hospitalId) {
+    public HospitalDetailsResponseDTO updateHospital(HospitalCreateRequestDTO request, UUID hospitalId) throws HospitalNotFoundException {
 
         HospitalMaster hospital = hospitalMasterRepository.findById(hospitalId)
-                .orElseThrow();
+                .orElseThrow(() -> new HospitalNotFoundException("Hospital not found with id: " + hospitalId));
 
         hospital.setName(request.getName());
         hospital.setAddress(request.getAddress());
