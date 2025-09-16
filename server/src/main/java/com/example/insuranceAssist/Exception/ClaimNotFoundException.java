@@ -4,14 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class DependentNotFoundException extends Exception{
+public class ClaimNotFoundException extends Exception {
 
-    public DependentNotFoundException(){
-        super();
-    }
+    public ClaimNotFoundException(){}
 
-    public DependentNotFoundException(String message){
+    public ClaimNotFoundException(String message) {
         super(message);
     }
-
 }

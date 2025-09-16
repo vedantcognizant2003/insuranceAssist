@@ -4,12 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class RelationNotFoundException extends Exception{
+public class RoleNotFoundException extends Exception{
 
-    public RelationNotFoundException(){}
+    public RoleNotFoundException(){}
 
-    public RelationNotFoundException(String message){
-        super(message);
-    }
+    public RoleNotFoundException(String message){super(message);}
 
 }

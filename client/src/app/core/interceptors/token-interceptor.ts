@@ -2,9 +2,13 @@ import { HttpInterceptorFn } from '@angular/common/http';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   // debugger;
+
+
   if (req.url.includes('/api/v1/public/login')) {
     return next(req);
   }
+
+
   debugger;
   const token = localStorage.getItem('token');
   debugger;

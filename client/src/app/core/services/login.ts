@@ -11,17 +11,11 @@ export class LoginService {
 
 
   onLogin(formValue: any): Observable<any> {
-    // console.log("calling");
-    // const response = this.http.get(`http://localhost:8080/api/v1/public/login`, formValue);
-    // console.log(response);
-    // return response;
-
-    // return this.http.post<{ token: string }>(
-    //   `http://localhost:8080/api/v1/public/login`,
-    //   formValue
-    // );
+   
 
     return this.http.post(`${environment.apiUrl}/public/login`, formValue); 
+
+    // return this.http.post(`${environment.apiUrl}/auth/login`, formValue);
 
   }
 }

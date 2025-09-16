@@ -1,1 +1,33 @@
-<p>agent works!</p>
+
+
+<ul class="nav nav-tabs mb-4">
+  <li class="nav-item">
+    <a class="nav-link" [class.active] = "activeTab === 'overview'" (click) = "setTab('overview')">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active] = "activeTab === 'claim-approval'" (click)="setTab('claim-approval')">Claim Approval</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active] = "activeTab === 'claim-history'" (click)="setTab('claim-history')">Claim History</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active] = "activeTab === 'claim-status-log'" (click)="setTab('claim-status-log')" >Claim Status Log</a>
+  </li>
+</ul>
+
+
+@if(activeTab === 'overview'){
+  <app-overview/> 
+}
+
+@if(activeTab === 'claim-approval'){
+  <p>claim approval works!</p>
+}
+
+@if(activeTab === 'claim-history'){
+  <p>claim history works!</p>
+}
+
+@if(activeTab === 'claim-status-log'){
+  <p>claim status log works!</p>
+}

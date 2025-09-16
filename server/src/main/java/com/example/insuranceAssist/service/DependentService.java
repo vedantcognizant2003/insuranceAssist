@@ -1,9 +1,9 @@
 package com.example.insuranceAssist.service;
 
-import com.example.insuranceAssist.Exception.ClientNotFoundException;
-import com.example.insuranceAssist.Exception.DependentNotFoundException;
-import com.example.insuranceAssist.Exception.RelationNotFoundException;
-import com.example.insuranceAssist.dto.DependentCreationDTORequest;
+import com.example.insuranceAssist.exception.ClientNotFoundException;
+import com.example.insuranceAssist.exception.DependentNotFoundException;
+import com.example.insuranceAssist.exception.RelationNotFoundException;
+import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
 import com.example.insuranceAssist.entity.DependentMaster;
@@ -15,7 +15,7 @@ import com.example.insuranceAssist.repository.UserMasterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +32,7 @@ public class DependentService {
     @Autowired
     private DependentMasterRepository dependentMasterRepository;
 
-    public UUID createDependent(DependentCreationDTORequest request) {
+    public UUID createDependent(DependentCreationRequestDTO request) throws ClientNotFoundException, RelationNotFoundException {
         
         UserMaster client = userMasterRepository.findById(request.getClientId())
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with clientId: " + request.getClientId()));
@@ -49,7 +49,7 @@ public class DependentService {
                 request.getGender(),
                 request.getEmail(),
                 client,
-                LocalDate.now()
+                LocalDateTime.now()
         );
         
         DependentMaster dep = dependentMasterRepository.save(dependentDetails);
@@ -57,7 +57,7 @@ public class DependentService {
         
     }
 
-    public List<DependentProfileViewDTO> getDependents(UUID clientId) {
+    public List<DependentProfileViewDTO> getDependents(UUID clientId) throws ClientNotFoundException {
 
         UserMaster client = userMasterRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with clientId: " + clientId));
@@ -81,7 +81,7 @@ public class DependentService {
 
     }
 
-    public DependentDetailsDTO getDependentDetails(UUID dependentId) {
+    public DependentDetailsDTO getDependentDetails(UUID dependentId) throws DependentNotFoundException {
 
         DependentMaster dependent = dependentMasterRepository.findById(dependentId)
                 .orElseThrow(() -> new DependentNotFoundException("Dependent not found with dependentId: " + dependentId));
@@ -99,7 +99,7 @@ public class DependentService {
 
     }
 
-    public DependentDetailsDTO updateDependent(UUID dependentId, DependentCreationDTORequest request) throws DependentNotFoundException {
+    public DependentDetailsDTO updateDependent(UUID dependentId, DependentCreationRequestDTO request) throws DependentNotFoundException {
 
         DependentMaster dependent = dependentMasterRepository.findById(dependentId)
                 .orElseThrow(() -> new DependentNotFoundException("Dependent not found with dependentId: " + dependentId));
@@ -110,7 +110,7 @@ public class DependentService {
         dependent.setGender(request.getGender());
         dependent.setPhone(request.getPhone());
         dependent.setAddress(request.getAddress());
-        dependent.setLastUpdated(LocalDate.now());
+        dependent.setLastUpdated(LocalDateTime.now());
 
         dependentMasterRepository.save(dependent);
 

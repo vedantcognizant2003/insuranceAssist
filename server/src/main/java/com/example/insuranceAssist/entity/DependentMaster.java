@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -44,7 +45,7 @@ public class DependentMaster {
     private RelationTypeMaster relationType;
 
     @Column(name = "last_updated", nullable = false)
-    private LocalDate lastUpdated;
+    private LocalDateTime lastUpdated;
 
     public DependentMaster(
             String name,
@@ -55,7 +56,7 @@ public class DependentMaster {
             String gender,
             String email,
             UserMaster client,
-            LocalDate lastUpdated
+            LocalDateTime lastUpdated
     ){
         this.name = name;
         this.dob = dob;
@@ -140,11 +141,11 @@ public class DependentMaster {
         this.relationType = relationType;
     }
 
-    public LocalDate getLastUpdated() {
+    public LocalDateTime getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(LocalDate lastUpdated) {
+    public void setLastUpdated(LocalDateTime lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 }

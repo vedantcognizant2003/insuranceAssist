@@ -1,9 +1,11 @@
 package com.example.insuranceAssist.controller;
 
-import com.example.insuranceAssist.Exception.DependentNotFoundException;
-import com.example.insuranceAssist.dto.DependentCreationDTORequest;
+import com.example.insuranceAssist.exception.ClientNotFoundException;
+import com.example.insuranceAssist.exception.DependentNotFoundException;
+import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
+import com.example.insuranceAssist.exception.RelationNotFoundException;
 import com.example.insuranceAssist.service.DependentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +25,13 @@ public class DependentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UUID> createDependent(@RequestBody DependentCreationDTORequest request){
+    public ResponseEntity<UUID> createDependent(@RequestBody DependentCreationRequestDTO request) throws ClientNotFoundException, RelationNotFoundException {
         UUID dependentId = dependentService.createDependent(request);
         return new ResponseEntity<>(dependentId, HttpStatus.CREATED);
     }
 
     @GetMapping("/get/{clientId}")
-    public ResponseEntity<?> getDependents(@PathVariable UUID clientId){
+    public ResponseEntity<?> getDependents(@PathVariable UUID clientId) throws ClientNotFoundException {
         List<DependentProfileViewDTO> response = dependentService.getDependents(clientId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -47,7 +49,7 @@ public class DependentController {
     }
 
     @PutMapping("/update/{dependentId}")
-    public ResponseEntity<?> updateDependent(@PathVariable UUID dependentId, @RequestBody DependentCreationDTORequest request){
+    public ResponseEntity<?> updateDependent(@PathVariable UUID dependentId, @RequestBody DependentCreationRequestDTO request) throws DependentNotFoundException {
         DependentDetailsDTO response = dependentService.updateDependent(dependentId, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

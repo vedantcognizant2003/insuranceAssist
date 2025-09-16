@@ -31,7 +31,7 @@ export class Login {
         
         if(response && response.token){
           localStorage.setItem('token', response.token);
-          this.router.navigateByUrl("/dashboard/client");
+          this.router.navigateByUrl("/dashboard/agent");
         }
         else{
           alert("Invalid response from server.");
