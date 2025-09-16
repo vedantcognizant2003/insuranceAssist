@@ -10,7 +10,16 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 export class Layout {
   
   router = inject(Router);
+
+  constructor() {
+    if(!localStorage.getItem('token')){
+      this.router.navigate(['/auth']);
+    }
+  }
+
   OnLogoff(){
+    localStorage.removeItem('token');
     this.router.navigate(['/auth']);
+
   }
 }

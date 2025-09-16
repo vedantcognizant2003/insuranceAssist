@@ -3,10 +3,11 @@
 <div class="auth-card">
     <div class="auth-card-body">
         <div>
-            <button class="btn btn-secondary w-50" [class.active]="selectedTab === 'login'" (click)="selectTab('login')">Login</button>
-            <button class="btn btn-secondary w-50" [class.active]="selectedTab === 'register'" (click)="selectTab('register')">Register</button>
+            <button class="btn  btn-primary me-md-2" [class.active]="selectedTab === 'login'" (click)="selectTab('login')">Login</button>
+            <button class="btn  btn-primary me-md-2" [class.active]="selectedTab === 'register'" (click)="selectTab('register')">Register</button>
         </div>
         <!-- <h4 class="auth-card-title text-center">{{ selectedTab === 'login' ? 'Login' : 'Register' }}</h4> -->
+        <br/>
             @if (selectedTab === 'login') {
                 <app-login></app-login>
             }
