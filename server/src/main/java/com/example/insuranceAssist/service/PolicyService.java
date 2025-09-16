@@ -1,14 +1,15 @@
 package com.example.insuranceAssist.service;
 
-import com.example.insuranceAssist.exception.ClientNotFoundException;
-import com.example.insuranceAssist.exception.PolicyNotFoundException;
-import com.example.insuranceAssist.exception.PolicyTypeNotFoundException;
 import com.example.insuranceAssist.dto.PolicyCreateRequestDTO;
 import com.example.insuranceAssist.dto.PolicyResponseDTO;
+import com.example.insuranceAssist.dto.PolicyTypeResponseDTO;
 import com.example.insuranceAssist.entity.Authorization;
 import com.example.insuranceAssist.entity.PolicyMaster;
 import com.example.insuranceAssist.entity.PolicyTypeMaster;
 import com.example.insuranceAssist.entity.UserMaster;
+import com.example.insuranceAssist.exception.ClientNotFoundException;
+import com.example.insuranceAssist.exception.PolicyNotFoundException;
+import com.example.insuranceAssist.exception.PolicyTypeNotFoundException;
 import com.example.insuranceAssist.repository.PolicyMasterRepository;
 import com.example.insuranceAssist.repository.PolicyTypeMasterRepository;
 import com.example.insuranceAssist.repository.UserMasterRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -109,6 +111,32 @@ public class PolicyService {
     public void deletePolicy(UUID policyId) {
 
         policyMasterRepository.deleteById(policyId);
+
+    }
+
+    public List<PolicyTypeResponseDTO> getPolicyType() {
+
+        List<PolicyTypeMaster> policyTypes = policyTypeMasterRepository.findAll();
+
+        List<PolicyTypeResponseDTO> response = new ArrayList<>();
+
+        for(PolicyTypeMaster policy: policyTypes){
+
+            PolicyTypeResponseDTO policyType = new PolicyTypeResponseDTO(
+                    policy.getId(),
+                    policy.getTier(),
+                    policy.getPremiumBase(),
+                    policy.getPremiumPerDependent(),
+                    policy.getDeductible(),
+                    policy.getInsurerPayPercentage(),
+                    policy.getNotes()
+            );
+
+            response.add(policyType);
+
+        }
+
+        return response;
 
     }
 }
