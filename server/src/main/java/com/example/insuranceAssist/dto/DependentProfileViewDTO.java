@@ -13,52 +13,18 @@ public class DependentProfileViewDTO {
     private String gender;
     private String relationName;
     private LocalDate dob;
+    private Long phone;
+    private String email;
+    private String address;
 
-    public DependentProfileViewDTO(UUID id, String name, String gender, String relationName, LocalDate dob) {
+    public DependentProfileViewDTO(UUID id, String name, String gender, String relationName, LocalDate dob, Long phone, String email, String address) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.relationName = relationName;
         this.dob = dob;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getRelationName() {
-        return relationName;
-    }
-
-    public void setRelationName(String relationName) {
-        this.relationName = relationName;
-    }
-
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
     }
 }

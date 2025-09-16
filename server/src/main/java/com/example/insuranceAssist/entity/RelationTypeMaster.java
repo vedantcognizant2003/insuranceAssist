@@ -15,19 +15,4 @@ public class RelationTypeMaster {
     @Column(name = "relation_name", nullable = false, unique = true, length = 40)
     private String relationName;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getRelationName() {
-        return relationName;
-    }
-
-    public void setRelationName(String relationName) {
-        this.relationName = relationName;
-    }
 }

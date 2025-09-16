@@ -37,10 +37,12 @@ public class PolicyService {
     }
 
 
-    public PolicyResponseDTO getPolicy(UUID policyId) throws PolicyNotFoundException {
+    public PolicyResponseDTO getPolicy(UUID clientId) throws ClientNotFoundException{
 
-        PolicyMaster policy = policyMasterRepository.findById(policyId)
-                .orElseThrow(() -> new PolicyNotFoundException("Policy not found with id: " + policyId));
+        UserMaster client = userMasterRepository.findById(clientId)
+                .orElseThrow(() -> new ClientNotFoundException("Client not found with id " + clientId));
+
+        PolicyMaster policy = policyMasterRepository.findByClient(client);
 
         PolicyTypeMaster policyType = policy.getPolicyType();
 
@@ -127,6 +129,7 @@ public class PolicyService {
                     policy.getTier(),
                     policy.getPremiumBase(),
                     policy.getPremiumPerDependent(),
+                    policy.getCoverage(),
                     policy.getDeductible(),
                     policy.getInsurerPayPercentage(),
                     policy.getNotes()
