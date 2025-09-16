@@ -2,6 +2,7 @@ package com.example.insuranceAssist.controller;
 
 import com.example.insuranceAssist.dto.PolicyCreateRequestDTO;
 import com.example.insuranceAssist.dto.PolicyResponseDTO;
+import com.example.insuranceAssist.dto.PolicyTypeResponseDTO;
 import com.example.insuranceAssist.exception.ClientNotFoundException;
 import com.example.insuranceAssist.exception.PolicyNotFoundException;
 import com.example.insuranceAssist.exception.PolicyTypeNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,9 +30,15 @@ public class PolicyController {
         return new ResponseEntity<>(policyId, HttpStatus.CREATED);
     }
 
-    @GetMapping("/get/{policyId}")
-    public ResponseEntity<PolicyResponseDTO> getPolicy(@PathVariable UUID policyId) throws PolicyNotFoundException {
-        PolicyResponseDTO response = policyService.getPolicy(policyId);
+    @GetMapping("/get/{clientId}")
+    public ResponseEntity<PolicyResponseDTO> getPolicy(@PathVariable UUID clientId) throws ClientNotFoundException {
+        PolicyResponseDTO response = policyService.getPolicy(clientId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("get/policyType")
+    public ResponseEntity<?> getPolicyType() throws PolicyTypeNotFoundException {
+        List<PolicyTypeResponseDTO> response = policyService.getPolicyType();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

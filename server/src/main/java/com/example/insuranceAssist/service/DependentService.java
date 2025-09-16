@@ -72,7 +72,10 @@ public class DependentService {
                 dependent.getName(),
                 dependent.getGender(),
                 dependent.getRelationType().getRelationName(),
-                dependent.getDob()
+                dependent.getDob(),
+                dependent.getPhone(),
+                dependent.getEmail(),
+                dependent.getAddress()
             );
             response.add(dependentProfile);
         }
