@@ -8,5 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './client-claim-history.css'
 })
 export class ClientClaimHistory {
+  
+
+
 
 }
